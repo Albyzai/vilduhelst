@@ -1,0 +1,32 @@
+{
+  "name": "vilduhelst",
+  "version": "1.0.0",
+  "description": "A school assignment - Vil du helst",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jonas Mohr, Aleksander Ryborg, Mads Mosumgaard",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.12.1",
+    "pg": "^7.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-inject": "^4.3.0",
+    "gulp-jscs": "^4.0.0",
+    "gulp-jshint": "^2.0.4",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1",
+    "nodemon": "^1.12.1",
+    "wiredep": "^4.0.0"
+  }
+}

@@ -1,0 +1,29 @@
+<%- include partials/head.ejs %>
+    <% for(var i=0; i< dilemmas.length; i++) { %>
+        <div style="border:1px #fff solid; padding:10px; margin-bottom:15px;">
+            <p style="color:white;">
+                ID :
+                <%= dilemmas[i]._id %>
+            </p>
+            <p style="color:white">
+                Red dilemma:
+                <%= dilemmas[i].red_dilemma %>
+            </p>
+            <p style="color:white">
+                blue dilemma:
+                <%= dilemmas[i].blue_dilemma %>
+            </p>
+            <p style="color:white">
+                red dilemma votes:
+                <%= dilemmas[i].red_dilemma_votes %>
+            </p>
+            <p style="color:white">
+                blue dilemma votes:
+                <%= dilemmas[i].blue_dilemma_votes %>
+            </p>
+        </div>
+
+
+
+        <% } %>
+            <%- include partials/footer.ejs %>

@@ -1,0 +1,14 @@
+{
+  "posts": [],
+  "user": {},
+  "dilemmas": [],
+  "dilemma": [
+    {
+      "id": 1,
+      "red_dilemma_question": "asdasd",
+      "blue_dilemma_question": "asdasd",
+      "red_votes": 0,
+      "blue_votes": 0
+    }
+  ]
+}
