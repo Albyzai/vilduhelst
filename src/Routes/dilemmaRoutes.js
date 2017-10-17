@@ -108,7 +108,6 @@ dilemmaRouter
 
 dilemmaRouter
     .get('/', function (req, res) {
-        console.log('dilemma called');
         res.send('hej');
     });
 

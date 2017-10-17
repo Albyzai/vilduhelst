@@ -1,27 +1,29 @@
- //
-<?php
-    // $id = 1;
-    // if (true === isset($_GET['id'])) {
-    // $id = $_GET['id'];
-    // }
+<% 
+$roundingerror = false;
+$percent_blue =  Math.round(dilemma.blue_dilemma_votes/
+                            (dilemma.blue_dilemma_votes + dilemma.red_dilemma_votes) * 100)
+if($percent_blue % 0.5 === 1){
+    $roundingerror = true;
+}
 
-    // $result = performQuery("SELECT * FROM dilemmas WHERE id = ".$id);
-    // while($row = mysqli_fetch_array($result)){
-    //     $blue_question = utf8_encode($row['blue_question']);
-    //     $blue_votes =  utf8_encode($row['blue_votes']);
-    //     $red_question = utf8_encode($row['red_question']);
-    //     $red_votes = utf8_encode($row['red_votes']);
-    // }
-    // ?>
+if($roundingerror){
+    $percent_red =  Math.round(dilemma.red_dilemma_votes/
+                               (dilemma.red_dilemma_votes + dilemma.blue_dilemma_votes)) - 0.01;
+} else {
+    $percent_red =  Math.round(dilemma.red_dilemma_votes/
+                               (dilemma.red_dilemma_votes + dilemma.blue_dilemma_votes) * 100);
+}
+%>
+
 
     <div class="answer-peek">
         <div class="peek-text">Vil du helst...</div>
         <div class="peek-buttons">
             <div class="peek-bluebutton">
-                <%= dilemma[0] %>
+                <%= dilemma.blue_dilemma %>
             </div>
             <div class="peek-redbutton">
-                <?php echo $red_question ?>
+                <%= dilemma.red_dilemma %>
             </div>
         </div>
     </div>
@@ -35,7 +37,7 @@
         <div class="col-md-10">
             <form class="col-md-5 col-md-offset-1 blue" action="" name="blue-form" method="POST">
                 <input type="hidden" name="buttoncolor" value="blue">
-                <div class="col-md-12  button" id="bluebutton" onClick="document.forms['blue-form'].submit();">
+                <div class="col-md-12  button" id="bluebutton" onClick="document.forms['blue-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000); removeOnclicks();">
                     <div class="blueCheckDiv"></div>
                     <div id="text-container">
                         <table cellpadding="0">
@@ -43,12 +45,13 @@
                                 <tr>
                                     <td valign="middle">
                                         <div class="result">
-                                            <div class="percentage">
-                                                <?php
-                                    $percent = $blue_votes/($blue_votes + $red_votes);
-                                    $percent_friendly = number_format( $percent * 100, 0 ) . '%';
-                                    echo $percent_friendly;
-                                    ?>
+                                            <div class="percentage" id="blue-percent">
+
+                                                <script>
+                                                    //animatePercent("blue-percent", 0, <%= $percent_blue %>, 2000);
+
+                                                </script>
+
                                             </div>
                                             <div class="total-votes">
                                                 <span class="count">
@@ -77,7 +80,7 @@
             </form>
             <form class="col-md-5 red" action="" name="red-form" method="POST">
                 <input type="hidden" name="buttoncolor" value="red">
-                <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();">
+                <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000); removeOnclicks();">
                     <div class="redCheckDiv"></div>
                     <div id="text-container">
                         <table cellpadding="0">
@@ -85,7 +88,7 @@
                                 <tr>
                                     <td valign="middle">
                                         <div class="result">
-                                            <div class="percentage">
+                                            <div class="percentage" id="red-percent">
 
                                                 <?php
                                     $percent = $blue_votes/($blue_votes + $red_votes);
