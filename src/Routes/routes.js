@@ -1,61 +1,66 @@
 var express = require('express');
-var router = express.Router();
-
-var mongodb = require('mongodb').MongoClient;
-var url = 'mongodb://localhost/vilduhelst';
-var globalResults;
 
 
-router
-    .get('/', function (req, res) {
+var router = function (Dilemma) {
 
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
-            collection.aggregate([{
-                $sample: {
-                    size: 1
-                }
-            }]).toArray(function (err, results) {
-                globalResults = results[0];
-                res.render('index', {
-                    dilemma: results[0]
-                });
-                db.close();
-            });
-        });
-    });
+    var defrouter = express.Router();
 
-router
-    .get('/about', function (req, res) {
-        res.send('Welcome to about page');
-    });
+    defrouter.route('/')
+        .get(function (req, res) {
 
 
-router
-    .post('/', function (req, res) {
-        var id = globalResults._id;
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
+            Dilemma.count().exec(function (err, count) {
+                var random = Math.floor(Math.random() * count);
+
+                Dilemma.findOne().skip(random).exec(function (err, dilemma) {
+                    res.render('index', {
+                        dilemma: dilemma
+                    })
+                })
+            })
+
+        })
+
+        .post(function (req, res) {
 
             if (req.body.buttoncolor === 'red') {
-                collection.updateOne({
-                    '_id': id
-                }, {
+                console.log('red');
+                Dilemma.findByIdAndUpdate(req.params.id, {
                     $inc: {
-                        red_dilemma_votes: +1
+                        red_dilemma_votes: 1
+                    }
+                }, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data);
                     }
                 });
+
             } else if (req.body.buttoncolor === 'blue') {
-                collection.updateOne({
-                    '_id': id
-                }, {
+
+                Dilemma.findByIdAndUpdate(req.params.id, {
                     $inc: {
-                        blue_dilemma_votes: +1
+                        blue_dilemma_votes: 1
+                    }
+                }, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data);
                     }
                 });
+
+
             }
-            db.close();
         });
-    });
+
+
+
+
+    return defrouter;
+
+}
+
 
 module.exports = router;

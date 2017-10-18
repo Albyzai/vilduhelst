@@ -1,8 +1,6 @@
 var express = require('express');
-var dilemmaRouter = express.Router();
-var mongodb = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
-var url = 'mongodb://localhost/vilduhelst';
+
+
 
 var dilemmas = [
     {
@@ -31,88 +29,114 @@ var dilemmas = [
     }
 ];
 
+var routes = function (Dilemma) {
+
+    var dilemmaRouter = express.Router();
+
+    dilemmaRouter
+        .get('/clear', function (req, res) {
+            res.clearCookie('visited');
+            res.send('hej');
+        });
+
+    dilemmaRouter
+        .get('/showall', function (req, res) {
+
+            Dilemma.find(function (err, dilemmas) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render('dilemmaList', {
+                        dilemmas: dilemmas
+                    })
+                }
+            })
+        });
 
 
-
-
-dilemmaRouter
-    .get('/showall', function (req, res) {
-
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
-            collection.find({}).toArray(function (err, results) {
-                res.render('dilemmaList', {
-                    dilemmas: results
+    dilemmaRouter
+        .get('/addDilemmas', function (req, res) {
+            var url = 'mongodb://localhost/vilduhelst';
+            mongodb.connect(url, function (err, db) {
+                var collection = db.collection('dilemmas');
+                collection.insert(dilemmas, function (err, results) {
+                    res.send(results);
+                    db.close();
                 });
-                db.close();
             });
-        });
-    });
 
-
-dilemmaRouter
-    .get('/addDilemmas', function (req, res) {
-        var url = 'mongodb://localhost/vilduhelst';
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
-            collection.insert(dilemmas, function (err, results) {
-                res.send(results);
-                db.close();
-            });
         });
 
-    });
+    dilemmaRouter.route('/:id')
+        .get(function (req, res) {
 
-dilemmaRouter
-    .get('/:id', function (req, res) {
-        var id = req.params.id;
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
-            collection.find({
-                '_id': new ObjectID(id)
-            }).toArray(function (err, results) {
-                res.render('index', {
-                    dilemma: results[0]
-                });
-                db.close();
+            Dilemma.findById(req.params.id, function (err, dilemma) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render('index', {
+                        dilemma: dilemma
+                    })
+                }
             });
-        });
-    });
+        })
 
-dilemmaRouter
-    .post('/:id', function (req, res) {
-        var id = req.params.id;
-        mongodb.connect(url, function (err, db) {
-            var collection = db.collection('dilemmas');
+        .post(function (req, res) {
 
             if (req.body.buttoncolor === 'red') {
-                collection.updateOne({
-                    '_id': new ObjectID(id)
-                }, {
+                console.log('red');
+                Dilemma.findByIdAndUpdate(req.params.id, {
                     $inc: {
-                        red_dilemma_votes: +1
+                        red_dilemma_votes: 1
+                    }
+                }, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data);
                     }
                 });
+
             } else if (req.body.buttoncolor === 'blue') {
-                collection.updateOne({
-                    '_id': new ObjectID(id)
-                }, {
+
+                Dilemma.findByIdAndUpdate(req.params.id, {
                     $inc: {
-                        blue_dilemma_votes: +1
+                        blue_dilemma_votes: 1
+                    }
+                }, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data);
                     }
                 });
+
+
             }
-            db.close();
+            res.redirect('/' + req.params.id);
         });
-    });
-
-dilemmaRouter
-    .get('/', function (req, res) {
-        res.send('hej');
-    });
 
 
 
+    dilemmaRouter.route('/')
+        .get(function (req, res) {
+            res.send('hej');
+        })
+        .post(function (req, res) {
+            res.send
+        });
 
 
-module.exports = dilemmaRouter;
+
+    return dilemmaRouter;
+
+}
+
+
+
+
+
+
+
+
+module.exports = routes;

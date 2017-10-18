@@ -45,18 +45,11 @@ if($roundingerror){
                                 <tr>
                                     <td valign="middle">
                                         <div class="result">
-                                            <div class="percentage" id="blue-percent">
-
-                                                <script>
-                                                    //animatePercent("blue-percent", 0, <%= $percent_blue %>, 2000);
-
-                                                </script>
-
-                                            </div>
+                                            <div class="percentage" id="blue-percent"></div>
                                             <div class="total-votes">
                                                 <span class="count">
                                                 <%= dilemma.blue_dilemma_votes %>
-                                <?php echo $blue_votes; ?>
+                             
                                             </span>
                                                 <span class="word">
                                     enige
@@ -80,7 +73,7 @@ if($roundingerror){
             </form>
             <form class="col-md-5 red" action="" name="red-form" method="POST">
                 <input type="hidden" name="buttoncolor" value="red">
-                <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000); removeOnclicks();">
+                <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000);removeOnclicks();">
                     <div class="redCheckDiv"></div>
                     <div id="text-container">
                         <table cellpadding="0">
@@ -90,11 +83,6 @@ if($roundingerror){
                                         <div class="result">
                                             <div class="percentage" id="red-percent">
 
-                                                <?php
-                                    $percent = $blue_votes/($blue_votes + $red_votes);
-                                    $percent_friendly = number_format( $percent * 100, 2 ) . '%';
-                                    echo $percent_friendly;
-                                    ?>
                                             </div>
                                             <div class="total-votes">
                                                 <span class="count">

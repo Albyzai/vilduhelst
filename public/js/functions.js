@@ -36,9 +36,16 @@ $(document).ready(function ($) {
 
 });
 
+function test(msg) {
+    console.log(msg);
+}
+
 function removeOnclicks() {
-    $('.button').onclick = null;
-    console.log("removeonclicks called");
+    var buttons = document.getElementsByClassName("button");
+    for (i = 0; i < buttons.length; i++) {
+        console.log(buttons[i] + "");
+        buttons[i].onclick = null;
+    }
 }
 
 function animatePercent(id, start, end, duration) {
@@ -71,5 +78,6 @@ function animatePercent(id, start, end, duration) {
 
     var timer = setInterval(run, stepTime);
     run();
+
 
 }

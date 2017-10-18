@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var clip = require('gulp-clip-empty-files');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var nodemon = require('gulp-nodemon');
@@ -34,6 +35,7 @@ gulp.task('inject', function () {
     };
 
     return gulp.src('./src/views/**/*.ejs')
+        .pipe(clip())
         .pipe(wiredep(options))
         .pipe(inject(injectSrc, injectOptions))
         .pipe(gulp.dest('./src/views'));
