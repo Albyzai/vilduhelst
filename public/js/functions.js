@@ -1,16 +1,42 @@
 var document = this;
 
+
+
+
 $(document).ready(function ($) {
-    $('.answer-peek').hide();
+
+
+    var fadedIn = false;
+
+
 
     $(document).scroll(function () {
-        var y = $(this).scrollTop();
-        if (y > 451) {
-            $('.answer-peek').fadeIn();
+        let y = $(this).scrollTop();
+        let treshold = $('#buttonrow').outerHeight() + $('#textrow').outerHeight();
+
+        if (y > treshold) {
+            if (!fadedIn) {
+                $('.answer-peek').fadeIn(function () {
+                    $(this).css('display', 'block');
+                    fadedIn = true
+                });
+
+            }
+
         } else {
-            $('.answer-peek').fadeOut();
+
+            if (fadedIn) {
+                $('.answer-peek').fadeOut(function () {
+                    $(this).css('display', 'none');
+                    fadedIn = false;
+                });
+            }
+
+
         }
+
     });
+
 
     /* Funktion som sørger for at vise checkmark på knapperne når de er trykket */
     $('#buttonrow .button').click(function () {
@@ -25,23 +51,57 @@ $(document).ready(function ($) {
         }
     });
 
-    $('.button-right').click(function () {
-
+    $('.button-right').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '/next',
+            success: function (response) {
+                window.location.href = '/next'
+                console.log(response);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
     });
 
-    $('.button-left').click(function () {
-
+    $('.button-left').on('click', function () {
+        $.ajax({
+            type: 'GET',
+            url: '/prev',
+            success: function (response) {
+                window.location.href = '/prev'
+                console.log(response);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
     });
 
 
+
+    $('button.remove-dilemma').on('click', function (e) {
+        $target = $(e.target);
+        const id = $target.attr('name');
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/dilemmas/' + id,
+            success: function (response) {
+                alert('Deleting dilemma');
+                window.location.href = '/dilemmas/delete';
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+
+    });
 });
 
-function test(msg) {
-    console.log(msg);
-}
-
 function removeOnclicks() {
-    var buttons = document.getElementsByClassName("button");
+    const buttons = document.getElementsByClassName("button");
     for (i = 0; i < buttons.length; i++) {
         console.log(buttons[i] + "");
         buttons[i].onclick = null;

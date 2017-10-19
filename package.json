@@ -19,6 +19,8 @@
     "gulp-nodemon": "^2.2.1",
     "mongodb": "^2.2.31",
     "mongoose": "^4.10.8",
+    "mongoose-sequence": "^4.0.1",
+    "mongoose-url-slugs": "^1.0.2",
     "pg": "^7.3.0"
   },
   "devDependencies": {

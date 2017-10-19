@@ -2,6 +2,7 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
     session = require('express-session'),
     port = process.env.PORT || 9999,
     app = express(),
@@ -27,15 +28,17 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(session({
-    secret: "vilduhelstSecret",
+    secret: 'vilduhelstSecret',
     expires: new Date(Date.now() + 30 * 86400 * 1000),
     maxAge: new Date(Date.now() + 30 * 86400 * 1000),
-    saveUninitialized: true,
-    resave: true
-}))
+    saveUninitialized: false,
+    resave: false
+}));
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
+
 
 
 
@@ -47,13 +50,18 @@ var Dilemma = require('./models/dilemmaModel.js');
 //Application routing
 var routes = require('./src/routes/routes')(Dilemma);
 var adminRouter = require('./src/routes/adminRoutes')(Dilemma);
-var dilemmaRouter = require('./src/routes/dilemmaRoutes')(Dilemma);
+var dilemmaRouter = require('./src/routes/dilemmaRoutes')(Dilemma, cookieParser);
 
 app.use('/', routes);
-app.use('/dilemmas', dilemmaRouter);
+app.use('/', dilemmaRouter);
 app.use('/admin', adminRouter);
 
 
+// redirect if nothing else sent a response
+//function redirectUnmatched(req, res) {
+//    res.redirect('/');
+//}
+//app.use(redirectUnmatched);
 
 
 //Start server

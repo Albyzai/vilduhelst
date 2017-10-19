@@ -21,6 +21,7 @@ nav {
 
 .answer-peek {
     position: fixed;
+    display: none;
     width: 100%;
     top: 0 !important;
     z-index: 10;
@@ -101,14 +102,99 @@ nav {
 
 
 
+.dilemmalist-entry {
+    border-bottom: 2px #fff solid;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.dilemmalist-entry h4 {
+    color: white;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.id-container {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 50px;
+    height: 50px;
+    background: white;
+    color: black;
+
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+}
+
+.slug-container {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 50px;
+    height: 50px;
+    background: white;
+    color: black;
+
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.dilemmalist-entry .total-votes {
+    color: white !important;
+    font-size: 2rem;
+}
+
+.dilemmalist-entry .question-text {
+    font-size: 3rem;
+}
+
+.dilemmalist-entry #bluebutton,
+.dilemmalist-entry #redbutton {
+    height: 15rem;
+}
+
+.dilemmalist-entry #bluebutton:after {
+    color: white;
+    text-align: center;
+    line-height: 6rem;
+    font-size: 2rem;
+    content: "eller";
+    position: absolute;
+    top: 4.5rem;
+    right: -5.7rem;
+    width: 9rem;
+    height: 6rem;
+    background: black;
+    z-index: 2;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 15px 0px black;
+}
+
+.dilemmalist-entry #text-container td {
+    width: 2000px;
+    height: 15rem;
+}
+
+.dilemmalist .result {
+    display: visible;
+}
+
+
+#bluebutton .percentage {
+    color: #267ea0;
+}
 
 .result {
     display: none;
 }
 
-#bluebutton .percentage {
-    color: #267ea0;
-}
+
 
 #redbutton .percentage {
     color: #7e0b0b;
@@ -226,7 +312,6 @@ form.red {
 
 #text-container {
     height: 15rem;
-    width: 80%;
     margin: auto 5rem;
 
 
