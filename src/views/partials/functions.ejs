@@ -1,0 +1,17 @@
+<%
+
+
+ showResults = function(button) {
+
+    $('#buttonrow .button .question').css('display', 'none');
+    $('#buttonrow .button .result').css('display', 'block');
+
+    if (button === 'red') {
+        $('.redCheckDiv').css('display', 'block');
+    } else if (button === 'blue') {
+        $('.blueCheckDiv').css('display', 'block');
+    }
+}
+
+
+%>

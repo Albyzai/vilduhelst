@@ -4,6 +4,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
+    passport = require('passport'),
+    RedisStore = require('connect-redis')(session),
     port = process.env.PORT || 9999,
     app = express(),
     db;
@@ -22,8 +24,9 @@ if (process.env.ENV === 'Test') {
 
 
 
-//Configuration
-app.use(express.static('public'));
+//Configuration - Middleware
+
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -31,11 +34,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
     secret: 'vilduhelstSecret',
+    store: new RedisStore({
+        host: 'localhost',
+        port: 6379
+    }),
     expires: new Date(Date.now() + 30 * 86400 * 1000),
     maxAge: new Date(Date.now() + 30 * 86400 * 1000),
     saveUninitialized: false,
     resave: false
 }));
+require('./src/config/passport')(app);
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
 
@@ -51,10 +59,12 @@ var Dilemma = require('./models/dilemmaModel.js');
 var routes = require('./src/routes/routes')(Dilemma);
 var adminRouter = require('./src/routes/adminRoutes')(Dilemma);
 var dilemmaRouter = require('./src/routes/dilemmaRoutes')(Dilemma, cookieParser);
+var authRouter = require('./src/routes/authRoutes');
 
 app.use('/', routes);
 app.use('/', dilemmaRouter);
 app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
 
 
 // redirect if nothing else sent a response

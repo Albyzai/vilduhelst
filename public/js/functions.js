@@ -8,8 +8,6 @@ $(document).ready(function ($) {
 
     var fadedIn = false;
 
-
-
     $(document).scroll(function () {
         let y = $(this).scrollTop();
         let treshold = $('#buttonrow').outerHeight() + $('#textrow').outerHeight();
@@ -38,26 +36,17 @@ $(document).ready(function ($) {
     });
 
 
-    /* Funktion som sørger for at vise checkmark på knapperne når de er trykket */
-    $('#buttonrow .button').click(function () {
-        var $this = $(this);
-        $this.addClass('selected');
-        $('#buttonrow .button .question').css('display', 'none');
-        $('#buttonrow .button .result').css('display', 'block');
-        if ($this.attr('id') === 'redbutton' && $('.blueCheckDiv').css('display') !== 'block' && $('.redCheckDiv').css('display') !== 'block') {
-            $('.redCheckDiv').css('display', 'block');
-        } else if ($('.blueCheckDiv').css('display') !== 'block' && $('.redCheckDiv').css('display') !== 'block') {
-            $('.blueCheckDiv').css('display', 'block');
-        }
-    });
 
     $('.button-right').on('click', function () {
+
         $.ajax({
             type: 'GET',
             url: '/next',
             success: function (response) {
-                window.location.href = '/next'
-                console.log(response);
+                window.location.href = '/next';
+                $("#div1").load("demo_test.txt");
+                console.log('next response: ' + response);
+                //console.log(response);
             },
             error: function (err) {
                 console.log(err);
@@ -68,45 +57,84 @@ $(document).ready(function ($) {
     $('.button-left').on('click', function () {
         $.ajax({
             type: 'GET',
-            url: '/prev',
-            success: function (response) {
-                window.location.href = '/prev'
-                console.log(response);
-            },
-            error: function (err) {
-                console.log(err);
-            }
+            url: '/prev'
         })
     });
+
+
 
 
 
     $('button.remove-dilemma').on('click', function (e) {
-        $target = $(e.target);
-        const id = $target.attr('name');
+        if (confirm('Are you sure you want to delete this dilemma?')) {
 
-        $.ajax({
-            type: 'DELETE',
-            url: '/dilemmas/' + id,
-            success: function (response) {
-                alert('Deleting dilemma');
-                window.location.href = '/dilemmas/delete';
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
 
+            $target = $(e.target);
+            const id = $target.attr('name');
+            console.log('This is the ID to remove: ' + id);
+            console.log('This is the url the DELTE request is requested on: ' + '/delete/' + id);
+            $.ajax({
+                type: 'DELETE',
+                url: '/delete/' + id,
+                success: function (response) {
+                    window.location.href = '/delete';
+                },
+                error: function (err) {
+                    console.log('Error removing dilemma: ' + err);
+                }
+            })
+        }
     });
 });
+
+
+
+
+
+function showResults(document, button, bluepercent, redpercent) {
+
+    $(document).ready(function ($) {
+
+        var $red_word = $('#redbutton').find('.word');
+        var $blue_word = $('#bluebutton').find('.word');
+        let enige = 'enige';
+        let uenige = 'uenige';
+
+
+        $('#buttonrow .button .question').css('display', 'none');
+        $('#buttonrow .button .result').css('display', 'block');
+
+        animatePercent('blue-percent', 0, bluepercent, 2000);
+        animatePercent('red-percent', 0, redpercent, 2000);
+
+        if (button === 'red') {
+            $red_word.html('').append(enige);
+            $blue_word.html('').append(uenige);
+            $('.redCheckDiv').css('display', 'block');
+        } else if (button === 'blue') {
+            $red_word.html('').append(uenige);
+            $blue_word.html('').append(enige);
+            $('.blueCheckDiv').css('display', 'block');
+        }
+
+        removeOnclicks();
+        $('.button-form').removeAttr("method");
+
+    });
+
+}
+
+
 
 function removeOnclicks() {
     const buttons = document.getElementsByClassName("button");
     for (i = 0; i < buttons.length; i++) {
-        console.log(buttons[i] + "");
         buttons[i].onclick = null;
     }
 }
+
+
+
 
 function animatePercent(id, start, end, duration) {
     // assumes integer values for start and end
@@ -130,6 +158,9 @@ function animatePercent(id, start, end, duration) {
         var now = new Date().getTime();
         var remaining = Math.max((endTime - now) / duration, 0);
         var value = Math.round(end - (remaining * range));
+        if (isNaN(value)) {
+            value = 0;
+        }
         obj.innerHTML = value + '%';
         if (value === end) {
             clearInterval(timer);

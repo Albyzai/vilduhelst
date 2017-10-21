@@ -1,4 +1,6 @@
 <% 
+
+
 $roundingerror = false;
 $percent_blue =  Math.round(dilemma.blue_dilemma_votes/
                             (dilemma.blue_dilemma_votes + dilemma.red_dilemma_votes) * 100)
@@ -13,111 +15,131 @@ if($roundingerror){
     $percent_red =  Math.round(dilemma.red_dilemma_votes/
                                (dilemma.red_dilemma_votes + dilemma.blue_dilemma_votes) * 100);
 }
+
+%>
+
+    <%
+if (typeof(buttonclicked) !== "undefined" && buttonclicked){
+    
+%>
+
+        <script>
+            var document = this;
+            var obj = <%- buttonclicked %>;
+            var redpercent = <%= $percent_red %>;
+            var bluepercent = <%= $percent_blue %>;
+            showResults(document, obj.button, bluepercent, redpercent);
+
+        </script>
+
+
+        <%}  
+
 %>
 
 
-    <div class="answer-peek">
-        <div class="peek-text">Vil du helst...</div>
-        <div class="peek-buttons">
-            <div class="peek-bluebutton">
-                <%= dilemma.blue_dilemma %>
+            <div class="answer-peek">
+                <div class="peek-text">Vil du helst...</div>
+                <div class="peek-buttons">
+                    <div class="peek-bluebutton">
+                        <%= dilemma.blue_dilemma %>
+                    </div>
+                    <div class="peek-redbutton">
+                        <%= dilemma.red_dilemma %>
+                    </div>
+                </div>
             </div>
-            <div class="peek-redbutton">
-                <%= dilemma.red_dilemma %>
+            <div class="row text-center" id="textrow">
+                <h3 style="color:white;">Vil du helst...</h3>
             </div>
-        </div>
-    </div>
-    <div class="row text-center" id="textrow">
-        <h3 style="color:white;">Vil du helst...</h3>
-    </div>
-    <div class="row" id="buttonrow">
-        <div class="col-md-1">
-            <div class="button-left"></div>
-        </div>
-        <div class="col-md-10">
-            <form class="col-md-5 col-md-offset-1 blue" action="" name="blue-form" method="POST">
-                <input type="hidden" name="buttoncolor" value="blue">
-                <div class="col-md-12  button" id="bluebutton" onClick="document.forms['blue-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000); removeOnclicks();">
-                    <div class="blueCheckDiv"></div>
-                    <div id="text-container">
-                        <table cellpadding="0">
-                            <tbody>
-                                <tr>
-                                    <td valign="middle">
-                                        <div class="result">
-                                            <div class="percentage" id="blue-percent"></div>
-                                            <div class="total-votes">
-                                                <span class="count">
+            <div class="row" id="buttonrow">
+                <div class="col-md-1">
+                    <i class="fa fa-5x fa-angle-left button-left" aria-hidden="true"></i>
+                    <!--                <div class="button-left"></div>-->
+                </div>
+                <div class="col-md-10">
+                    <form class="col-md-5 col-md-offset-1 blue button-form" action="" name="blue-form" method="POST">
+                        <input type="hidden" name="buttoncolor" value="blue">
+                        <div class="col-md-12  button" id="bluebutton" onClick="document.forms['blue-form'].submit();">
+                            <div class="blueCheckDiv"></div>
+                            <div id="text-container">
+                                <table cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle">
+                                                <div class="result">
+                                                    <div class="percentage" id="blue-percent"></div>
+                                                    <div class="total-votes">
+                                                        <span class="count">
                                                 <%= dilemma.blue_dilemma_votes %>
                              
                                             </span>
-                                                <span class="word">
-                                    enige
-                                </span>
-                                            </div>
-                                            <div class="question-text">
+                                                        <span class="word">
+                                                </span>
+                                                    </div>
+                                                    <div class="question-text">
 
-                                                <%= dilemma.blue_dilemma %>
-                                            </div>
-                                        </div>
-                                        <p class="question">
-                                            <%= dilemma.blue_dilemma %>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                        <%= dilemma.blue_dilemma %>
+                                                    </div>
+                                                </div>
+                                                <p class="question">
+                                                    <%= dilemma.blue_dilemma %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                    </div>
-                </div>
-            </form>
-            <form class="col-md-5 red" action="" name="red-form" method="POST">
-                <input type="hidden" name="buttoncolor" value="red">
-                <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();animatePercent('blue-percent', 0, <%= $percent_blue %>, 2000); animatePercent('red-percent', 0, <%= $percent_red %>, 2000);removeOnclicks();">
-                    <div class="redCheckDiv"></div>
-                    <div id="text-container">
-                        <table cellpadding="0">
-                            <tbody>
-                                <tr>
-                                    <td valign="middle">
-                                        <div class="result">
-                                            <div class="percentage" id="red-percent">
+                            </div>
+                        </div>
+                    </form>
+                    <form class="col-md-5 red button-form" action="" name="red-form" method="POST">
+                        <input type="hidden" name="buttoncolor" value="red">
+                        <div class="col-md-12 button" id="redbutton" onClick="document.forms['red-form'].submit();">
+                            <div class="redCheckDiv"></div>
+                            <div id="text-container">
+                                <table cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle">
+                                                <div class="result">
+                                                    <div class="percentage" id="red-percent">
 
-                                            </div>
-                                            <div class="total-votes">
-                                                <span class="count">
+                                                    </div>
+                                                    <div class="total-votes">
+                                                        <span class="count">
                                                 <%= dilemma.red_dilemma_votes %>
-                                </span>
-                                                <span class="word">
-                                    uenige
-                                </span>
-                                            </div>
-                                            <div class="question-text">
-                                                <%= dilemma.red_dilemma %>
-                                            </div>
-                                        </div>
-                                        <p class="question">
-                                            <%= dilemma.red_dilemma %>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                                </span>
+                                                        <span class="word">
+                                                </span>
+                                                    </div>
+                                                    <div class="question-text">
+                                                        <%= dilemma.red_dilemma %>
+                                                    </div>
+                                                </div>
+                                                <p class="question">
+                                                    <%= dilemma.red_dilemma %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-        <div class="col-md-1">
-            <div class="button-right"></div>
-        </div>
-    </div>
+                <div class="col-md-1">
+                    <i class="fa fa-5x fa-angle-right button-right" aria-hidden="true"></i>
+                    <!--                    <div class="button-right"></div>-->
+                </div>
+            </div>
 
-    <div class="row" id="dividerrow">
-        <div class="col-md-8" id="divider-left"></div>
-        <div class="col-md-4" id="divider-right"></div>
-    </div>
+            <div class="row" id="dividerrow">
+                <div class="col-md-8" id="divider-left"></div>
+                <div class="col-md-4" id="divider-right"></div>
+            </div>
 
-    <div class="row" id="socialrow">
-        <div class="col-md-8 socialcol" id="col-left"></div>
-        <div class="col-md-4 socialcol" id="col-right"></div>
-    </div>
+            <div class="row" id="socialrow">
+                <div class="col-md-8 socialcol" id="col-left"></div>
+                <div class="col-md-4 socialcol" id="col-right"></div>
+            </div>

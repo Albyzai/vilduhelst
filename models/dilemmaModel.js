@@ -20,7 +20,6 @@ var dilemmaSchema = new Schema({
 
 
 
-//dilemmaSchema.plugin(AutoIncrement);
 dilemmaSchema.plugin(AutoIncrement, {
     inc_field: 'id'
 });

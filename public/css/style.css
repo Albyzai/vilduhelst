@@ -1,9 +1,3 @@
-@import url('normalize.css');
-@import url('bootstrap.min.css');
-@import url('bootstrap-theme.css');
-@import url('bootstrap.css');
-@import url('bootstrap-theme.min.css');
-
 html {
     font-size: 10px;
 
@@ -12,6 +6,15 @@ html {
 body {
     background: url('../img/bgpattern.png') repeat;
     font-family: 'Roboto', sans-serif !important;
+
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
 }
 
 nav {
@@ -104,8 +107,7 @@ nav {
 
 .dilemmalist-entry {
     border-bottom: 2px #fff solid;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 20px;
 }
 
 .dilemmalist-entry h4 {
@@ -356,6 +358,8 @@ form.red {
     height: 25rem;
 }
 
+/*
+
 .button-right {
     position: absolute;
     top: 8rem;
@@ -384,8 +388,30 @@ form.red {
 .button-left:hover {
     background: url('../img/leftbuttonhover.png');
 }
+*/
 
+.fa-angle-right,
+.fa-angle-left {
+    color: white;
+    font-size: 6rem !important;
+    transition: all 0.5s;
+    cursor: pointer;
+}
 
+.fa-angle-right:hover,
+.fa-angle-left:hover {
+    -webkit-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
+.fa-angle-left {
+    float: right;
+}
+
+.fa-angle-right {
+    float: left;
+}
 
 @../img (max-width: 991px) {
 

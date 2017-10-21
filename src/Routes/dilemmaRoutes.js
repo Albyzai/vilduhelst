@@ -3,24 +3,20 @@ var express = require('express');
 
 var routes = function (Dilemma, session) {
 
-    var dilemmaRouter = express.Router();
+    const dilemmaRouter = express.Router();
 
-    dilemmaRouter
-        .get('/clear', function (req, res) {
-            res.clearCookie('visited');
-            res.send('Cookies cleared');
-        });
 
+
+    //GET: Routes to the 'add dilemma' page
+    //POST: Adds dilemma to DB with the fields from the <form>
     dilemmaRouter.route('/add')
         .get(function (req, res) {
-
             res.render('createDilemma')
-
         })
         .post(function (req, res) {
-            let title = req.body.title;
-            let dilemma_red = req.body.redDilemma;
-            let dilemma_blue = req.body.blueDilemma;
+            const title = req.body.title;
+            const dilemma_red = req.body.redDilemma;
+            const dilemma_blue = req.body.blueDilemma;
 
             Dilemma.create({
                 dilemma_title: title,
@@ -28,21 +24,21 @@ var routes = function (Dilemma, session) {
                 blue_dilemma: dilemma_blue
             }, function (err, dilemma) {
                 if (err) {
-                    console.log(err);
+                    console.log('Add error: ' + err);
                 }
 
                 res.redirect('/add');
             })
         });
 
+
+    //:GET Routes to the 'delete' page which consists of a list of dilemmas
     dilemmaRouter.route('/delete')
         .get(function (req, res) {
-
             Dilemma.find(function (err, dilemmas) {
                 if (err) {
-                    console.log(err);
+                    console.log('Delete error: ' + err);
                 } else {
-                    console.log(req.session.dilemmaID);
                     res.render('deleteDilemma', {
                         dilemmas: dilemmas
                     })
@@ -51,19 +47,39 @@ var routes = function (Dilemma, session) {
         })
 
 
+    //DELETE: Route used by functions.js onclick to delete specified dilemma
+    dilemmaRouter.route('/delete/:id')
+        .delete(function (req, res) {
+            const id = req.params.id
+            const query = {
+                _id: id
+            }
+            Dilemma.remove(query, function (err) {
+                if (err) {
+                    console.log('Delete error: ' + err);
+                } else {
+                    console.log(id + ' has been removed');
+                    res.send('success')
+                }
+            })
+        })
+
+
+    //GET: Routes to the page of a specific dilemma
+    //POST: Renders the result of the dilemma with client side .js
     dilemmaRouter.route('/:id/:slug')
         .get(function (req, res) {
             const _id = req.params.id;
             const _slug = req.params.slug;
 
-            let query = {
+            const query = {
                 id: _id,
                 slug: _slug
             }
 
             Dilemma.findOne(query, function (err, dilemma) {
                 if (err) {
-                    console.log(err);
+                    console.log('Get error in /id/slug : ' + err);
                 } else {
                     if (dilemma === null) {
                         res.redirect('/');
@@ -77,63 +93,74 @@ var routes = function (Dilemma, session) {
                 }
             })
         })
-
         .post(function (req, res) {
+            const id = req.params.id;
+            const slug = req.params.slug;
+
+            const query = {
+                id: id,
+                slug: slug
+            };
 
             if (req.body.buttoncolor === 'red') {
-                Dilemma.findByIdAndUpdate(req.params.id, {
+                Dilemma.findOneAndUpdate(query, {
                     $inc: {
                         red_dilemma_votes: 1
                     }
-                }, function (err, data) {
+                }, function (err, dilemma) {
                     if (err) {
-                        console.log(err);
+                        console.log('Post error: ' + err);
                     } else {
-                        console.log(data);
+                        let buttonJson = {
+                            button: 'red'
+                        };
+
+                        res.render('index', {
+                            dilemma: dilemma,
+                            buttonclicked: JSON.stringify(buttonJson)
+
+                        })
                     }
                 });
 
             } else if (req.body.buttoncolor === 'blue') {
 
-                Dilemma.findByIdAndUpdate(req.params.id, {
+                Dilemma.findOneAndUpdate(query, {
                     $inc: {
                         blue_dilemma_votes: 1
                     }
-                }, function (err, data) {
+                }, function (err, dilemma) {
                     if (err) {
-                        console.log(err);
+                        console.log('Post error: ' + err);
                     } else {
-                        console.log(data);
+                        let buttonJson = {
+                            button: 'blue'
+                        };
+
+                        res.render('index', {
+                            dilemma: dilemma,
+                            buttonclicked: JSON.stringify(buttonJson)
+
+                        })
                     }
                 });
 
 
             }
-            //res.redirect('/dilemmas/' + req.params.id);
         })
-        .delete(function (req, res) {
-            let query = {
-                _id: req.params.id
-            };
-            var dilemmaID = req.body.dilemmaId;
-
-            Dilemma.remove(query, function (err) {
-                if (err) {
-                    console.log(err);
-                }
-                res.send('Succes');
 
 
 
-            });
-        });;
 
-
+    //GET: Handles click of 'next' arrow key, by routing to a random (unvisited) dilemma
     dilemmaRouter.route('/next')
         .get(function (req, res) {
 
             Dilemma.count().exec(function (err, count) {
-                var random = Math.floor(Math.random() * count);
+                if (err) {
+                    console.log('Next get error: ' + err);
+                }
+                const random = Math.floor(Math.random() * count);
 
                 Dilemma.findOne().skip(random).exec(function (err, dilemma) {
                     dilemmaID = dilemma._id;
@@ -145,6 +172,11 @@ var routes = function (Dilemma, session) {
 
         })
 
+
+    dilemmaRouter.route('/prev')
+        .get(function (req, res) {
+            res.redirect('back');
+        });
 
 
 

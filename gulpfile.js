@@ -19,7 +19,7 @@ gulp.task('inject', function () {
     var wiredep = require('wiredep').stream;
     var inject = require('gulp-inject');
 
-    var injectSrc = gulp.src(['./public/css/*.css', './public/js/*.js'], {
+    var injectSrc = gulp.src(['./public/css/*.css', './public/js/*.js', './public/lib/**/dist/*.css', './public/lib/**/*.css'], {
         read: false
     });
 
@@ -45,10 +45,6 @@ gulp.task('serve', ['style', 'inject'], function () {
     var options = {
         script: 'server.js',
         delayTime: 1,
-        env: {
-            'PORT': 9999,
-            'DB': 'mongodb://localhost/vilduhelst'
-        },
         watch: jsFiles
     };
 
