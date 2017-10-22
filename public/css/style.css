@@ -1,12 +1,20 @@
-html {
-    font-size: 10px;
+/*---------------
+    #General
+---------------*/
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 100%;
 }
 
 body {
     background: url('../img/bgpattern.png') repeat;
     font-family: 'Roboto', sans-serif !important;
-
     -webkit-user-select: none;
     /* Safari */
     -moz-user-select: none;
@@ -17,10 +25,22 @@ body {
     /* Standard */
 }
 
-nav {
-    height: 12.5rem;
-    border-bottom: 2px #3c3c3c solid;
+.nopadding {
+    padding: 0 !important;
 }
+
+.nomargin {
+    margin: 0 !important;
+}
+
+#buttonrow {
+    margin-bottom: 2rem;
+}
+
+
+/*---------------
+    #Scrollbar
+---------------*/
 
 .answer-peek {
     position: fixed;
@@ -31,6 +51,8 @@ nav {
     height: 6rem;
     background: black;
 }
+
+
 
 .peek-text {
     width: 100%;
@@ -99,11 +121,11 @@ nav {
     background-image: linear-gradient(top, #eb353e, #d0252b);
 }
 
-#buttonrow {
-    margin-bottom: 2rem;
-}
 
 
+/*---------------
+    #Delete List
+---------------*/
 
 .dilemmalist-entry {
     border-bottom: 2px #fff solid;
@@ -188,19 +210,9 @@ nav {
 }
 
 
-#bluebutton .percentage {
-    color: #267ea0;
-}
-
-.result {
-    display: none;
-}
-
-
-
-#redbutton .percentage {
-    color: #7e0b0b;
-}
+/*---------------
+    #Dilemma Buttons
+---------------*/
 
 .percentage {
     font-style: bold;
@@ -209,30 +221,52 @@ nav {
     color: black;
 }
 
-#bluebutton .total-votes {
-    color: #beecff;
+.dilemma-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    height: 25rem;
+
 }
 
-#redbutton .total-votes {
-    color: #ff7f7f;
+.question-result {
+    font-size: 2.5rem;
 }
 
-.question-text {
-    font-size: 2rem;
+.question {
+    font-size: 3rem;
+    text-align: center;
+    width: 80%;
+}
+
+.result {
+    display: none;
+}
+
+
+.button-form {
+    padding: 0;
+}
+
+#text-container p {
+    text-shadow: 1px 1px #262626;
+}
+
+.total-votes {
+    font-size: 2.5rem;
 }
 
 #bluebutton {
-    position: relative;
-    display: block;
+    margin-right: 5px;
     background-color: #48b0df;
     background-image: -webkit-linear-gradient(top, #a1e1f0, #48b0df);
     background-image: -moz-linear-gradient(top, #a1e1f0, #48b0df);
     background-image: -ms-linear-gradient(top, #a1e1f0, #48b0df);
     background-image: -o-linear-gradient(top, #a1e1f0, #48b0df);
     background-image: linear-gradient(top, #a1e1f0, #48b0df);
-    height: 25rem;
-    cursor: pointer;
-    margin-right: 7px !important;
 }
 
 #bluebutton:hover {
@@ -243,17 +277,20 @@ nav {
     background-image: linear-gradient(top, #bbecf8, #a1e1f0);
 }
 
-#bluebutton:after {
-    color: white;
-    text-align: center;
-    line-height: 8rem;
-    font-size: 3rem;
-    content: "eller";
+#eller {
     position: absolute;
-    top: 8.5rem;
-    right: -6.7rem;
+    text-align: center;
+    margin: auto auto;
+    cursor: pointer;
+    color: white;
     width: 12rem;
     height: 8rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 8rem;
+    font-size: 3rem;
     background: black;
     z-index: 2;
     -moz-border-radius: 50px;
@@ -262,24 +299,34 @@ nav {
     box-shadow: 0px 0px 15px 0px black;
 }
 
+.blueCheckDiv {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: url('../img/bluecheck.png');
+    width: 59px;
+    height: 59px;
+}
 
-form.red {
-    margin-left: -30px !important;
+#bluebutton .total-votes {
+    color: #beecff;
+}
+
+#bluebutton .percentage {
+    color: #267ea0;
 }
 
 #redbutton {
-    display: block;
-    position: relative;
+    margin-left: 5px;
     background-color: #d0252b;
     background-image: -webkit-linear-gradient(top, #eb353e, #d0252b);
     background-image: -moz-linear-gradient(top, #eb353e, #d0252b);
     background-image: -ms-linear-gradient(top, #eb353e, #d0252b);
     background-image: -o-linear-gradient(top, #eb353e, #d0252b);
     background-image: linear-gradient(top, #eb353e, #d0252b);
-    height: 25rem;
-    cursor: pointer;
-    margin-left: 14px;
 }
+
 
 #redbutton:hover {
     background-image: -webkit-linear-gradient(top, #f6464f, #eb353e);
@@ -290,14 +337,29 @@ form.red {
 
 }
 
-.socialcol {
-    background-color: white;
-    height: 100%;
+.redCheckDiv {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: url('../img/redcheck.png');
+    width: 59px;
+    height: 59px;
 }
 
-#col-left {
-    background: #f5f5f5;
+#redbutton .total-votes {
+    color: #ff7f7f;
 }
+
+#redbutton .percentage {
+    color: #7e0b0b;
+}
+
+
+
+/*---------------
+    #Divider
+---------------*/
 
 #divider-left {
     height: 5rem;
@@ -312,83 +374,37 @@ form.red {
     border-bottom: 1px #3c3c3c solid;
 }
 
-#text-container {
-    height: 15rem;
-    margin: auto 5rem;
 
 
+.socialcol {
+    height: 50em;
+    background-color: white;
 }
 
-#text-container td {
-    color: white;
-    height: 25rem;
-    width: 400px;
-    padding: 20px;
-    font-size: 2.7rem;
-    vertical-align: middle;
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
+#col-left {
+    background: #f5f5f5;
 }
 
-#text-container p {
-    text-shadow: 1px 1px #262626;
-}
 
-.blueCheckDiv {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: url('../img/bluecheck.png');
-    width: 59px;
-    height: 59px;
-}
 
-.redCheckDiv {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: url('../img/redcheck.png');
-    width: 59px;
-    height: 59px;
-}
+/*---------------
+    #Prev-next buttons
+---------------*/
 
 .col-md-1 {
     height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/*
-
-.button-right {
-    position: absolute;
-    top: 8rem;
-    right: 3rem;
-    background: url('../img/rightbutton.png');
-    width: 70px;
-    height: 70px;
-    cursor: pointer;
-    margin: auto auto;
+.fa-angle-left {
+    float: right;
 }
 
-.button-right:hover {
-    background: url('../img/rightbuttonhover.png');
+.fa-angle-right {
+    float: left;
 }
-
-.button-left {
-    position: absolute;
-    top: 8rem;
-    left: 3rem;
-    background: url('../img/leftbutton.png');
-    width: 70px;
-    height: 70px;
-    cursor: pointer;
-}
-
-.button-left:hover {
-    background: url('../img/leftbuttonhover.png');
-}
-*/
 
 .fa-angle-right,
 .fa-angle-left {
@@ -403,33 +419,4 @@ form.red {
     -webkit-transform: scale(1.3);
     -ms-transform: scale(1.3);
     transform: scale(1.3);
-}
-
-.fa-angle-left {
-    float: right;
-}
-
-.fa-angle-right {
-    float: left;
-}
-
-@../img (max-width: 991px) {
-
-    #bluebutton:after {
-        color: white;
-        text-align: center;
-        line-height: 8rem;
-        font-size: 3rem;
-        content: "eller";
-        position: absolute;
-        top: 21rem;
-        right: 315px;
-        width: 12rem;
-        height: 8rem;
-        background: black;
-        z-index: 2;
-        -moz-border-radius: 50px;
-        -webkit-border-radius: 50px;
-        border-radius: 50px;
-    }
 }

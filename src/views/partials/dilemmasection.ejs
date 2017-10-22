@@ -1,0 +1,59 @@
+<div class="row text-center" id="textrow">
+    <h3 style="color:white;">Vil du helst...</h3>
+</div>
+<div class="row" id="buttonrow">
+    <div class="col-md-1">
+        <i class="fa fa-angle-left button-left" aria-hidden="true"></i>
+    </div>
+    <div class="col-md-10">
+        <div id="eller">eller</div>
+        <form class="col-md-5 col-md-offset-1 blue button-form nopadding" action="" name="blue-form" method="POST">
+            <input type="hidden" name="buttoncolor" value="blue">
+            <div class="col-md-12  dilemma-button" id="bluebutton" onClick="document.forms['blue-form'].submit();">
+
+                <div class="blueCheckDiv"></div>
+
+
+                <div class="result">
+                    <div class="percentage" id="blue-percent"></div>
+                    <div class="total-votes">
+                        <span class="count">
+                            <%= dilemma.blue_dilemma_votes %>
+                        </span>
+                        <span class="word"></span>
+                    </div>
+                    <div class="question-result">
+                        <%= dilemma.blue_dilemma %>
+                    </div>
+                </div>
+                <p class="question">
+                    <%= dilemma.blue_dilemma %>
+                </p>
+            </div>
+        </form>
+        <form class="col-md-5 red button-form nopadding" action="" name="red-form" method="POST">
+            <input type="hidden" name="buttoncolor" value="red">
+            <div class="col-md-12 dilemma-button" id="redbutton" onClick="document.forms['red-form'].submit();">
+                <div class="redCheckDiv"></div>
+                <div class="result">
+                    <div class="percentage" id="red-percent"></div>
+                    <div class="total-votes">
+                        <span class="count">
+                            <%= dilemma.red_dilemma_votes %>
+                        </span>
+                        <span class="word"></span>
+                    </div>
+                    <div class="question-result">
+                        <%= dilemma.red_dilemma %>
+                    </div>
+                </div>
+                <p class="question">
+                    <%= dilemma.red_dilemma %>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <i class="fa fa-angle-right button-right" aria-hidden="true"></i>
+    </div>
+</div>

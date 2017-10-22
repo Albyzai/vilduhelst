@@ -101,8 +101,8 @@ function showResults(document, button, bluepercent, redpercent) {
         let uenige = 'uenige';
 
 
-        $('#buttonrow .button .question').css('display', 'none');
-        $('#buttonrow .button .result').css('display', 'block');
+        $('.dilemma-button .question').css('display', 'none');
+        $('.dilemma-button .result').css('display', 'block');
 
         animatePercent('blue-percent', 0, bluepercent, 2000);
         animatePercent('red-percent', 0, redpercent, 2000);
@@ -127,7 +127,7 @@ function showResults(document, button, bluepercent, redpercent) {
 
 
 function removeOnclicks() {
-    const buttons = document.getElementsByClassName("button");
+    const buttons = document.getElementsByClassName("dilemma-button");
     for (i = 0; i < buttons.length; i++) {
         buttons[i].onclick = null;
     }

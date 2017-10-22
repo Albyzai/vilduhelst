@@ -14,4 +14,31 @@
 }
 
 
-%>
+$roundingerror = false;
+$percent_blue =  Math.round(dilemma.blue_dilemma_votes/
+                            (dilemma.blue_dilemma_votes + dilemma.red_dilemma_votes) * 100)
+if($percent_blue % 0.5 === 1){
+    $roundingerror = true;
+}
+
+if($roundingerror){
+    $percent_red =  Math.round(dilemma.red_dilemma_votes/
+                               (dilemma.red_dilemma_votes + dilemma.blue_dilemma_votes)) - 0.01;
+} else {
+    $percent_red =  Math.round(dilemma.red_dilemma_votes/
+                               (dilemma.red_dilemma_votes + dilemma.blue_dilemma_votes) * 100);
+}
+
+if (typeof(buttonclicked) !== "undefined" && buttonclicked){
+    %>
+    <script>
+        var document = this;
+        var obj = <%- buttonclicked %>;
+        var redpercent = <%= $percent_red %>;
+        var bluepercent = <%= $percent_blue %>;
+        showResults(document, obj.button, bluepercent, redpercent);
+
+    </script>
+
+
+    <%}  %>
