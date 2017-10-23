@@ -1,0 +1,21 @@
+<%- include partials/head.ejs %>
+    <ul>
+        <% for(var i=0; i< users.length; i++) { %>
+
+            <li>
+                <p style="color:white; font-size:2em">
+                    username:
+                    <%= users[i].username %>
+                </p>
+                <p style="color:white; font-size:2em">
+                    password:
+                    <%= users[i].password %>
+                </p>
+                <p style="color:white; font-size:2em">
+                    userID:
+                    <%= users[i]._id %>
+                </p>
+            </li>
+            <% } %>
+    </ul>
+    <%- include partials/footer.ejs %>

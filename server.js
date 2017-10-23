@@ -51,7 +51,8 @@ app.set('views', './src/views');
 
 
 //Models
-var Dilemma = require('./models/dilemmaModel.js');
+const Dilemma = require('./models/Dilemma.js');
+const User = require('./models/User.js')
 
 
 
@@ -59,12 +60,14 @@ var Dilemma = require('./models/dilemmaModel.js');
 var routes = require('./src/routes/routes')(Dilemma);
 var adminRouter = require('./src/routes/adminRoutes')(Dilemma);
 var dilemmaRouter = require('./src/routes/dilemmaRoutes')(Dilemma, cookieParser);
-var authRouter = require('./src/routes/authRoutes');
+var authRouter = require('./src/routes/authRoutes')(User);
 
+
+app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
 app.use('/', routes);
 app.use('/', dilemmaRouter);
-app.use('/admin', adminRouter);
-app.use('/auth', authRouter);
+
 
 
 // redirect if nothing else sent a response

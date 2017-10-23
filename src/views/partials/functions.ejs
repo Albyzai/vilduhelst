@@ -42,3 +42,39 @@ if (typeof(buttonclicked) !== "undefined" && buttonclicked){
 
 
     <%}  %>
+
+        <script>
+            var pageid = <%- dilemma.id %> + ',';
+
+            if (typeof Cookies.get('visitedDilemmas') === 'undefined') {
+                visitedDilemmas = [pageid];
+                Cookies.set('visitedDilemmas', pageid, {
+                    expires: 30
+                });
+            } else {
+                var cookieArray = Cookies.get('visitedDilemmas');
+                Cookies.set('visitedDilemmas', cookieArray + pageid);
+            }
+
+            if (typeof Cookies.get('allDilemmas') !== 'undefined') {
+                var allString = Cookies.get('allDilemmas');
+                var allArray = allString.split(",").filter(function(el) {
+                    return el.length != 0
+                });;
+                var visitedString = Cookies.get('visitedDilemmas');
+                var visitedArray = visitedString.split(",").filter(function(el) {
+                    return el.length != 0
+                });;
+
+
+                if (visitedArray.length === allArray.length) {
+                    visitedArray = [];
+                    Cookies.set('visitedDilemmas', pageid);
+                }
+
+                var newarray = _.difference(allArray, visitedArray);
+                Cookies.set('dilemmas', newarray.toString());
+
+            }
+
+        </script>

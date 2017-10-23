@@ -1,39 +1,40 @@
 {
-    "name": "vilduhelst",
-    "description": "A school assignment - Vil du helst",
-    "main": "server.js",
-    "authors": [
+  "name": "vilduhelst",
+  "description": "A school assignment - Vil du helst",
+  "main": "server.js",
+  "authors": [
     "Jonas Mohr",
     "Aleksander Ryborg",
     "Mads Mosumgaard"
   ],
-    "license": "ISC",
-    "homepage": "http://localhost:9999",
-    "ignore": [
+  "license": "ISC",
+  "homepage": "http://localhost:9999",
+  "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests"
   ],
-    "dependencies": {
-        "bootstrap": "^3.3.7",
-        "font-awesome": "fontawesome#^4.7.0"
-    },
-    "overrides": {
-        "bootstrap": {
-            "main": [
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.7.0",
+    "js-cookie": "^2.1.4"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
         "dist/js/bootstrap.js",
         "dist/css/bootstrap.min.css",
         "less/bootstrap.less"
       ]
-        },
-        "font-awesome": {
-            "main": [
+    },
+    "font-awesome": {
+      "main": [
         "less/font-awesome.less",
         "css/font-awesome.css",
         "scss/font-awesome.scss"
       ]
-        }
     }
+  }
 }

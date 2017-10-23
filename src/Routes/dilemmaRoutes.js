@@ -67,19 +67,18 @@ var routes = function (Dilemma, session) {
 
     //GET: Routes to the page of a specific dilemma
     //POST: Renders the result of the dilemma with client side .js
-    dilemmaRouter.route('/:id/:slug')
+    dilemmaRouter.route(['/:id/:slug', '/:id*'])
         .get(function (req, res) {
             const _id = req.params.id;
-            const _slug = req.params.slug;
 
             const query = {
-                id: _id,
-                slug: _slug
+                id: _id
             }
 
             Dilemma.findOne(query, function (err, dilemma) {
                 if (err) {
                     console.log('Get error in /id/slug : ' + err);
+                    res.redirect('/');
                 } else {
                     if (dilemma === null) {
                         res.redirect('/');
@@ -95,11 +94,9 @@ var routes = function (Dilemma, session) {
         })
         .post(function (req, res) {
             const id = req.params.id;
-            const slug = req.params.slug;
 
             const query = {
-                id: id,
-                slug: slug
+                id: id
             };
 
             if (req.body.buttoncolor === 'red') {
@@ -118,7 +115,6 @@ var routes = function (Dilemma, session) {
                         res.render('index', {
                             dilemma: dilemma,
                             buttonclicked: JSON.stringify(buttonJson)
-
                         })
                     }
                 });
@@ -140,12 +136,9 @@ var routes = function (Dilemma, session) {
                         res.render('index', {
                             dilemma: dilemma,
                             buttonclicked: JSON.stringify(buttonJson)
-
                         })
                     }
                 });
-
-
             }
         })
 
